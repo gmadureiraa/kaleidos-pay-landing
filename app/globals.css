@@ -2,25 +2,182 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
+  --muted: #6b7280;
+  --muted-bg: #f5f5f5;
+  --border: #e5e7eb;
+  --accent: #10b981;
+  --accent-deep: #047857;
+  --accent-glow: rgba(16, 185, 129, 0.18);
+  --card: #ffffff;
+  --surface: #fafafa;
+  --grid: rgba(10, 10, 10, 0.04);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-muted-bg: var(--muted-bg);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-sans-custom);
+  --font-mono: var(--font-mono-custom);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans-custom), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.011em;
+}
+
+.font-display {
+  font-family: var(--font-sans-custom), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.font-mono-custom {
+  font-family: var(--font-mono-custom), ui-monospace, "SF Mono", Menlo,
+    monospace;
+}
+
+/* Grid background */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.bg-grid-fade {
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  -webkit-mask-image: radial-gradient(
+    ellipse at center,
+    black 40%,
+    transparent 75%
+  );
+}
+
+/* Hero glow */
+.hero-glow {
+  background: radial-gradient(
+    60% 60% at 50% 0%,
+    var(--accent-glow) 0%,
+    rgba(16, 185, 129, 0) 70%
+  );
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pill / chip */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-family: var(--font-mono-custom);
+  letter-spacing: 0.02em;
+}
+
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #0a0a0a;
+  color: #ffffff;
+  padding: 0.85rem 1.35rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.5);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--foreground);
+  font-size: 0.9rem;
+}
+.btn-ghost:hover {
+  color: var(--accent-deep);
+}
+
+/* Card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.15s ease, transform 0.2s ease;
+}
+.card:hover {
+  border-color: #d1d5db;
+}
+
+/* Noise overlay for that série-A polish */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.04'/></svg>");
+}
+
+/* Subtle divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border),
+    transparent
+  );
+}
+
+/* Marquee-ish row */
+.logo-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: center;
+  opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+  .logo-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kaleidos Pay — Landing
 
-## Getting Started
+Landing page do Kaleidos Pay, o gateway de pagamentos da Kaleidos. Captura de
+waitlist rodando em Next.js 16 + Tailwind v4 + Supabase (opcional).
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router, Turbopack)
+- Tailwind CSS v4
+- Supabase (persistência da waitlist)
+- bun (package manager)
+- Inter + JetBrains Mono (Google Fonts)
+
+## Dev
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre em `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Waitlist
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O form grava em `public.waitlist` via API Route em `app/api/waitlist/route.ts`.
 
-## Learn More
+### Setup Supabase
 
-To learn more about Next.js, take a look at the following resources:
+1. Cria um projeto em https://supabase.com
+2. Roda `supabase/schema.sql` no SQL editor
+3. Copia `Project URL` e `service_role key`
+4. Adiciona como env vars:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=ey...
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Fallback gracioso
 
-## Deploy on Vercel
+Se `SUPABASE_URL` ou `SUPABASE_SERVICE_ROLE_KEY` não estiverem setadas, o
+endpoint aceita o email e loga no servidor (`console.log`). Isso evita que a
+landing quebre num primeiro deploy antes das envs estarem configuradas.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Conectar repo na Vercel
+2. Setar `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` nas env vars
+3. Apontar domínio `pay.kaleidos.com.br`
+
+## Estrutura
+
+```
+app/
+├── api/waitlist/route.ts    # POST /api/waitlist
+├── layout.tsx               # Fonts + metadata + OG
+├── page.tsx                 # Landing (todas as seções)
+└── globals.css              # Design tokens + utilitários
+
+components/
+├── dashboard-mockup.tsx     # Hero visual
+├── faq-item.tsx             # Accordion do FAQ
+└── waitlist-form.tsx        # Form com states idle/loading/success/error
+
+lib/
+└── supabase.ts              # Cliente Supabase admin
+
+public/
+├── favicon.svg
+└── og.svg                   # Open Graph 1200x630
+
+supabase/
+└── schema.sql               # Tabela waitlist + RLS
+```
