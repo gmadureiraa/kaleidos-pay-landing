@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { sql } from "@/lib/neon";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -25,31 +25,24 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabase = getSupabaseAdmin();
-
-  // Fallback gracioso: se Supabase não está configurado, aceita mas loga.
-  // Assim a landing funciona no primeiro deploy enquanto Gabriel conecta as envs.
-  if (!supabase) {
-    console.log("[waitlist] Supabase não configurado. Email recebido:", email);
+  // Fallback gracioso: sem DATABASE_URL, aceita mas só loga.
+  if (!process.env.DATABASE_URL) {
+    console.log("[waitlist] DATABASE_URL não configurado. Email recebido:", email);
     return NextResponse.json({ ok: true, stored: false });
   }
 
-  const { error } = await supabase
-    .from("waitlist")
-    .insert({ email, source });
-
-  if (error) {
-    // 23505 = unique violation (email já cadastrado) — tratar como sucesso.
-    if (error.code === "23505") {
-      return NextResponse.json({ ok: true, stored: true, duplicate: true });
-    }
-
-    console.error("[waitlist] erro supabase:", error);
+  try {
+    await sql`
+      INSERT INTO waitlist (email, source)
+      VALUES (${email}, ${source})
+      ON CONFLICT (email) DO NOTHING
+    `;
+    return NextResponse.json({ ok: true, stored: true });
+  } catch (err) {
+    console.error("[waitlist] erro neon:", err);
     return NextResponse.json(
       { ok: false, error: "Não conseguimos salvar agora. Tente de novo." },
       { status: 500 }
     );
   }
-
-  return NextResponse.json({ ok: true, stored: true });
 }
