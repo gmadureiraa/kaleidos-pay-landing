@@ -1,145 +1,221 @@
 export function DashboardMockup() {
   return (
-    <div className="relative w-full max-w-[620px] mx-auto">
-      {/* Glow behind */}
-      <div className="absolute -inset-10 bg-gradient-to-tr from-emerald-200/40 via-transparent to-emerald-100/40 blur-3xl rounded-full -z-10" />
+    <div className="relative w-full max-w-[560px] mx-auto">
+      {/* Floating stickers */}
+      <span
+        className="absolute z-20 kp-sticker"
+        style={{
+          top: "-4%",
+          right: "-2%",
+          background: "var(--kp-green)",
+          transform: "rotate(6deg)",
+        }}
+      >
+        ✦ PIX em ~1s
+      </span>
+      <span
+        className="absolute z-20 kp-sticker hidden md:inline-flex"
+        style={{
+          bottom: "14%",
+          left: "-5%",
+          background: "var(--kp-pink)",
+          transform: "rotate(-5deg)",
+        }}
+      >
+        Split 70/30 · automático
+      </span>
 
-      {/* Window frame */}
-      <div className="rounded-2xl border border-[var(--border)] bg-white shadow-[0_20px_60px_-20px_rgba(10,10,10,0.2)] overflow-hidden">
+      {/* Main panel */}
+      <div className="kp-mock" style={{ padding: 0, overflow: "hidden" }}>
         {/* Titlebar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] bg-[var(--surface)]">
+        <div
+          className="flex items-center justify-between"
+          style={{
+            borderBottom: "1.5px solid var(--kp-ink)",
+            padding: "10px 14px",
+            background: "var(--kp-soft)",
+            fontFamily: "var(--kp-mono)",
+            fontSize: 9,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "var(--kp-muted)",
+          }}
+        >
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+            <span
+              className="w-2.5 h-2.5 rounded-full"
+              style={{ background: "var(--kp-pink)", border: "1px solid var(--kp-ink)" }}
+            />
+            <span
+              className="w-2.5 h-2.5 rounded-full"
+              style={{ background: "var(--kp-yellow)", border: "1px solid var(--kp-ink)" }}
+            />
+            <span
+              className="w-2.5 h-2.5 rounded-full"
+              style={{ background: "var(--kp-green)", border: "1px solid var(--kp-ink)" }}
+            />
           </div>
-          <div className="font-mono-custom text-xs text-[var(--muted)]">
-            pay.kaleidos.com.br/dashboard
-          </div>
-          <div className="w-12" />
+          <span>pay.kaleidos.com.br</span>
+          <span>ao vivo</span>
         </div>
 
         {/* Body */}
-        <div className="p-5 space-y-4">
-          {/* Header row */}
-          <div className="flex items-center justify-between">
+        <div style={{ padding: 20 }}>
+          {/* header */}
+          <div className="flex items-end justify-between gap-3">
             <div>
-              <div className="text-xs text-[var(--muted)]">Recebido hoje</div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-semibold tracking-tight">
+              <div
+                style={{
+                  fontFamily: "var(--kp-mono)",
+                  fontSize: 9.5,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--kp-muted)",
+                }}
+              >
+                Recebido hoje
+              </div>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span
+                  className="kp-display"
+                  style={{ fontSize: 40, lineHeight: 1, fontStyle: "italic" }}
+                >
                   R$ 48.920
                 </span>
-                <span className="text-xs font-medium text-[var(--accent-deep)] bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-md">
+                <span
+                  className="kp-mono"
+                  style={{
+                    fontSize: 10,
+                    background: "var(--kp-green)",
+                    padding: "2px 7px",
+                    border: "1.5px solid var(--kp-ink)",
+                    letterSpacing: "0.16em",
+                  }}
+                >
                   +22%
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-1 text-xs">
-              <span className="pill">
-                <span className="pill-dot" />
-                ao vivo
-              </span>
-            </div>
+            <span className="kp-eyebrow" style={{ fontSize: 8 }}>
+              <span className="kp-dot" />
+              Live
+            </span>
           </div>
 
           {/* Chart */}
-          <div className="h-24 relative">
+          <div
+            style={{
+              marginTop: 18,
+              height: 96,
+              position: "relative",
+              border: "1.5px solid var(--kp-ink)",
+              background: "var(--kp-paper)",
+              padding: 6,
+            }}
+          >
             <svg
               viewBox="0 0 600 100"
               className="w-full h-full"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                </linearGradient>
-              </defs>
               <path
                 d="M0,70 C50,60 90,75 130,60 C180,40 220,55 260,45 C310,30 350,50 400,35 C450,20 500,30 550,15 L600,20 L600,100 L0,100 Z"
-                fill="url(#g1)"
+                fill="var(--kp-green)"
+                fillOpacity="0.3"
               />
               <path
                 d="M0,70 C50,60 90,75 130,60 C180,40 220,55 260,45 C310,30 350,50 400,35 C450,20 500,30 550,15 L600,20"
                 fill="none"
-                stroke="#10b981"
-                strokeWidth="2"
+                stroke="var(--kp-ink)"
+                strokeWidth="2.2"
                 strokeLinecap="round"
               />
             </svg>
           </div>
 
           {/* Transaction rows */}
-          <div className="divide-y divide-[var(--border)] border border-[var(--border)] rounded-xl overflow-hidden">
+          <div
+            style={{
+              marginTop: 16,
+              border: "1.5px solid var(--kp-ink)",
+            }}
+          >
             {[
               {
                 label: "PIX · Mariana Rocha",
                 sub: "checkout-abc",
-                val: "+ R$ 2.480,00",
+                val: "+ R$ 2.480",
                 tag: "PIX",
+                bg: "var(--kp-green)",
               },
               {
                 label: "Cartão · Lucas Tavares",
                 sub: "recorrência · mensal",
-                val: "+ R$ 189,00",
-                tag: "CARD",
+                val: "+ R$ 189",
+                tag: "Card",
+                bg: "var(--kp-white)",
               },
               {
                 label: "Split · Agência Vento",
                 sub: "70/30 · 2 partes",
-                val: "+ R$ 5.600,00",
-                tag: "SPLIT",
+                val: "+ R$ 5.600",
+                tag: "Split",
+                bg: "var(--kp-pink)",
               },
-            ].map((tx) => (
+            ].map((tx, i, arr) => (
               <div
                 key={tx.label}
-                className="flex items-center justify-between gap-3 px-4 py-3 text-sm"
+                className="flex items-center justify-between gap-3"
+                style={{
+                  padding: "10px 12px",
+                  borderBottom:
+                    i === arr.length - 1 ? "none" : "1px solid rgba(10,10,10,.15)",
+                  fontSize: 13,
+                }}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <span
-                    className={`font-mono-custom text-[10px] px-1.5 py-0.5 rounded-md border ${
-                      tx.tag === "PIX"
-                        ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                        : tx.tag === "CARD"
-                          ? "border-slate-200 bg-slate-50 text-slate-700"
-                          : "border-violet-200 bg-violet-50 text-violet-700"
-                    }`}
+                    className="kp-mono"
+                    style={{
+                      fontSize: 9,
+                      padding: "3px 7px",
+                      background: tx.bg,
+                      border: "1.5px solid var(--kp-ink)",
+                      letterSpacing: "0.16em",
+                      flexShrink: 0,
+                    }}
                   >
                     {tx.tag}
                   </span>
                   <div className="min-w-0">
                     <div className="truncate font-medium">{tx.label}</div>
-                    <div className="text-xs text-[var(--muted)] truncate font-mono-custom">
+                    <div
+                      className="truncate"
+                      style={{
+                        fontSize: 11,
+                        color: "var(--kp-muted)",
+                        fontFamily: "var(--kp-mono)",
+                        letterSpacing: "0.08em",
+                      }}
+                    >
                       {tx.sub}
                     </div>
                   </div>
                 </div>
-                <div className="font-mono-custom font-medium text-[var(--foreground)] whitespace-nowrap">
+                <div
+                  className="font-medium whitespace-nowrap"
+                  style={{
+                    fontFamily: "var(--kp-display)",
+                    fontSize: 17,
+                    fontStyle: "italic",
+                  }}
+                >
                   {tx.val}
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* Floating card */}
-      <div className="hidden md:flex absolute -left-8 bottom-12 rounded-xl border border-[var(--border)] bg-white shadow-[0_10px_30px_-10px_rgba(10,10,10,0.15)] px-3.5 py-2.5 items-center gap-2.5 rotate-[-4deg]">
-        <div className="w-8 h-8 rounded-lg bg-emerald-500 grid place-items-center">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M3 8.5l3 3 7-7"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-        <div className="text-xs">
-          <div className="font-medium">PIX recebido</div>
-          <div className="text-[var(--muted)] font-mono-custom">em 1,2s</div>
         </div>
       </div>
     </div>

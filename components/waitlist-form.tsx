@@ -8,12 +8,18 @@ type Props = {
   source?: string;
   size?: "md" | "lg";
   className?: string;
+  buttonLabel?: string;
+  placeholder?: string;
+  align?: "start" | "center";
 };
 
 export function WaitlistForm({
   source = "hero",
   size = "md",
   className = "",
+  buttonLabel = "Entrar na lista",
+  placeholder = "seu@email.com",
+  align = "start",
 }: Props) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -58,16 +64,16 @@ export function WaitlistForm({
     }
   };
 
-  const inputPadding = size === "lg" ? "py-4 text-base" : "py-3 text-sm";
-  const buttonPadding = size === "lg" ? "py-4 px-5" : "py-3 px-4";
+  const inputSize =
+    size === "lg" ? "py-4 text-base" : "py-3 text-sm";
 
   return (
     <form
       onSubmit={onSubmit}
-      className={`w-full max-w-md ${className}`}
+      className={`w-full max-w-md ${align === "center" ? "mx-auto" : ""} ${className}`}
       noValidate
     >
-      <div className="flex flex-col sm:flex-row gap-2 p-1.5 rounded-2xl border border-[var(--border)] bg-white/90 backdrop-blur shadow-[0_1px_2px_rgba(10,10,10,0.04),0_12px_40px_-16px_rgba(16,185,129,0.25)]">
+      <div className="flex flex-col sm:flex-row gap-2 items-stretch">
         <label className="sr-only" htmlFor={`waitlist-email-${source}`}>
           Seu melhor email
         </label>
@@ -77,16 +83,17 @@ export function WaitlistForm({
           inputMode="email"
           autoComplete="email"
           required
-          placeholder="seu@email.com"
+          placeholder={placeholder}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === "loading"}
-          className={`flex-1 bg-transparent outline-none px-4 ${inputPadding} text-[var(--foreground)] placeholder:text-[var(--muted)] disabled:opacity-60`}
+          className={`kp-input flex-1 ${inputSize} disabled:opacity-60`}
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`btn-primary ${buttonPadding} disabled:opacity-70 disabled:cursor-not-allowed shrink-0`}
+          className="kp-btn kp-btn-ink disabled:opacity-70 disabled:cursor-not-allowed shrink-0"
+          style={size === "lg" ? { padding: "14px 22px", fontSize: 11.5 } : undefined}
         >
           {status === "loading" ? (
             <>
@@ -94,16 +101,18 @@ export function WaitlistForm({
             </>
           ) : (
             <>
-              Entrar na lista
+              {buttonLabel}
               <Arrow />
             </>
           )}
         </button>
       </div>
 
-      <div className="min-h-[1.5rem] mt-3 px-1 text-sm">
+      <div
+        className={`min-h-[1.5rem] mt-3 px-1 text-sm ${align === "center" ? "text-center" : ""}`}
+      >
         {status === "success" && (
-          <p className="text-[var(--accent-deep)] font-medium flex items-center gap-1.5">
+          <p className="font-medium flex items-center gap-1.5" style={{ color: "var(--accent-deep)" }}>
             <CheckIcon /> {message}
           </p>
         )}
@@ -111,8 +120,16 @@ export function WaitlistForm({
           <p className="text-red-600">{message}</p>
         )}
         {status === "idle" && (
-          <p className="text-[var(--muted)] text-xs">
-            Sem spam. Só te chamamos quando tiver acesso.
+          <p
+            className="text-xs"
+            style={{
+              color: "var(--kp-muted)",
+              fontFamily: "var(--kp-mono)",
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+            }}
+          >
+            Sem spam · saímos se pedir
           </p>
         )}
       </div>
@@ -123,8 +140,8 @@ export function WaitlistForm({
 function Arrow() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="14"
+      height="14"
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden="true"
@@ -132,7 +149,7 @@ function Arrow() {
       <path
         d="M3 8h10m0 0L9 4m4 4l-4 4"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

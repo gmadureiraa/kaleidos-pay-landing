@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
@@ -15,15 +15,23 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+const serif = Instrument_Serif({
+  variable: "--font-serif-custom",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://pay.kaleidos.com.br"),
   title: "Kaleidos Pay — Receba sem atrito",
   description:
-    "Checkout sem fricção, split automático e gestão de recorrência. O Kaleidos Pay é o gateway de pagamento que entende o Brasil.",
+    "Gateway de pagamentos pra agências, creators e freelancers. PIX instantâneo, cartão, recorrência e split automático num só painel.",
   openGraph: {
     title: "Kaleidos Pay — Receba sem atrito",
     description:
-      "Checkout sem fricção, split automático e gestão de recorrência em um só lugar.",
+      "PIX instantâneo, cartão, recorrência e split automático num só painel.",
     url: "https://pay.kaleidos.com.br",
     siteName: "Kaleidos Pay",
     locale: "pt_BR",
@@ -40,13 +48,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kaleidos Pay — Receba sem atrito",
-    description: "Checkout sem fricção, split automático e recorrência.",
+    description:
+      "PIX instantâneo, cartão, recorrência e split automático num só painel.",
     images: ["/og.svg"],
   },
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
 };
 
@@ -59,9 +66,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="pt-BR"
-        className={`${sans.variable} ${mono.variable} h-full antialiased`}
+        className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="kp-grain min-h-full flex flex-col">{children}</body>
       </html>
     </ClerkProvider>
   );
